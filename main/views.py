@@ -15,7 +15,6 @@ from main.models import MoodEntry
 
 @login_required(login_url='/login')
 def show_main(request):
-
     context = {
         'npm' : '2306223906',
         'name': request.user.username,
@@ -39,11 +38,11 @@ def create_mood_entry(request):
     return render(request, "create_mood_entry.html", context)
 
 def show_xml(request):
-    data = MoodEntry.objects.all()
+    data = MoodEntry.objects.filter(user=request.user)
     return HttpResponse(serializers.serialize("xml", data), content_type="application/xml") 
 
 def show_json(request):
-    data = MoodEntry.objects.all()
+    data = MoodEntry.objects.filter(user=request.user)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
 def show_xml_by_id(request, id):
